@@ -3,11 +3,6 @@ import foodData from "./index.json" assert { type: "json" };
 
 
 
-
-
-
-
-
 /* ------ FILTER FUNCTIONS ------- */
 
 
@@ -62,6 +57,7 @@ function getAllBeef() {
     const currentFood = foodData[index]
     if (currentFood.beef === true) {
       returnArray.push(currentFood)
+
     }
   }
 
