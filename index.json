@@ -1,8 +1,8 @@
 
 [
     {
-    "disheName":["FläskfiléPlanka", "en"],
-    "about":["about", "en"],
+    "disheName":["Fläskfilé Planka", "Pork Tenderloin Planksteak"],
+    "about":["Duchesse mos, rödvinssky, bearnaise och stekta grönsaker", "Duchesse potatoes, a redwin reduction, béarnaise and fried vegetables"],
     "price":149,
     "vegan":false,
     "chicken":false,
@@ -14,8 +14,8 @@
     "glutenFree":false
     },
 
-  {"disheName":["Biff Rydberg", "en"],
-  "about":["about", "en"],
+  {"disheName":["Biff Rydberg", "Biff Rydberg"],
+  "about":["Tärnad oxfilé, potatis och gullök, serveras med dijonsenapskräm och rå äggula", "Diced beef tenderloin, potatoes and onion, served with dijonmustard and raw egg yolk"],
   "price":175,
   "vegan":false,
   "chicken":false,
@@ -27,8 +27,8 @@
   "glutenFree":false
   },
 
-  {"disheName":"Spicy Cheeseburger",
-  "about":["about", "en"],
+  {"disheName":["Spicy Cheeseburger","Spicy Cheeseburger"],
+  "about":["180gram högrevsburgare med sallad, tomat, picklad rödlökm cheddarost med jalapeños och barbecuesås i briochebröd med pommes och rökig ranch-aoili", "180grams prime rib burger with lettuce, tomato, pickled red onion, cheddar cheese with jalapeños and barbecue sauce in brioched bread with fries and smokey ranch-aioli"],
   "price":155,
   "vegan":true,
   "chicken":false,
@@ -40,9 +40,9 @@
   "glutenFree":false
   },
 
-  {"disheName":"Halloui Burgare",
-  "about":["about", "en"],
-  "price":255,
+  {"disheName":["Halloumi Burgare","Halloumi Burger"],
+  "about":["Sallad, tomat, rödlök, och guacamole i briochebröd med pommes och aioli", "Lettuce, tomato, red onion and guacamole in brioche bread with fries and aioli"],
+  "price":155,
   "vegan":true,
   "chicken":false,
   "pork":false,
@@ -53,10 +53,82 @@
   "glutenFree":false
   },
 
-  {"disheName":"Fish´n Chips",
-  "about":["about", "en"],
-  "price":255,
-  "vegan":true,
+  {"disheName":["Fish´n Chips","Fish´n Chips"],
+  "about":["Beer-batter panerad torskrygg med dill-aioli, halstrad citron och pommes", "Beer-batter breaded cod loins with dill-aioli, seared lemon and fries"],
+  "price":149,
+  "vegan":false,
+  "chicken":false,
+  "pork":false,
+  "beef":false,
+  "fish":true,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Husets Schnitzel","Schnitzel"],
+  "about":["200gram välbankad schnitzel, borås största, med citron, kapris, anjovis, kryddsmör och rödvinssky serveras med stekt potatis", "200grams of meat, Borås biggest, served with lemon, capers, anchovy, herb butter and a redwine reduction with fried potatoes"],
+  "price":175,
+  "vegan":false,
+  "chicken":false,
+  "pork":true,
+  "beef":false,
+  "fish":false,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Caesar Sallad","Caesar Salad"],
+  "about":["Varm kyckling, bacon, krutonger, parmesan samt caesardressing", "Grilled chicken, bacon, croutons, parmesan and caesardressing"],
+  "price":[85,139],
+  "vegan":false,
+  "chicken":true,
+  "pork":true,
+  "beef":false,
+  "fish":false,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Laxsallad med Quinoa","Salmonsalad with Quinoa"],
+  "about":["Grillad lax med quinoa, cocktailtomater, blandsallad, morot julienne, rödlök med en vinägrett", "Salmonsalad with quiona, cocktail tomatoes, julianne carrot, mixed salad, red onion with vinegrette"],
+  "price":159,
+  "vegan":false,
+  "chicken":false,
+  "pork":false,
+  "beef":false,
+  "fish":true,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Krämig Kycklingpasta","Creamy Chickenpasta"],
+  "about":["Soltorkade tomater, basilika, grönsaker och parmesan", "Sundried tomatoes, basil, vegetables and parmesan"],
+  "price":169,
+  "vegan":false,
+  "chicken":true,
+  "pork":false,
+  "beef":false,
+  "fish":false,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Musslor Ál Cava","Mussles Ál Cava"],
+  "about":["Ångkokta musslor i en krämig sås gjord på cava, toppas med creme fraîche och jalapeños, serveras med pommes och aioli", "Steamed mussles in a creamy cava sauce, topped with creme fraîche and jalapeños, served with fries and aioli"],
+  "price":[109,189],
+  "vegan":false,
+  "chicken":false,
+  "pork":false,
+  "beef":false,
+  "fish":true,
+
+  "lactoseFree":false,
+  "glutenFree":false
+  },
+  {"disheName":["Grillad Oxfilé","Grilled Beef Tenderloin"],
+  "about":["200gram oxfilé, rödvinssås, frästa grönsaker serveras med potatisgratäng (går att få med pommes och bearnaise)", "200gram Beef tenderloin, redwine reduction, fried vegetable and potato gratin (possible with fries and bearnaise)"],
+  "price":259,
+  "vegan":false,
   "chicken":false,
   "pork":false,
   "beef":false,
