@@ -1,8 +1,8 @@
 
 [
     {
-    "disheName":"FläskfiléPlanka",
-    "about":"about",
+    "disheName":["FläskfiléPlanka", "en"],
+    "about":["about", "en"],
     "price":149,
     "vegan":false,
     "chicken":false,
@@ -14,8 +14,8 @@
     "glutenFree":false
     },
 
-  {"disheName":"Biff Rydberg",
-  "about":"about",
+  {"disheName":["Biff Rydberg", "en"],
+  "about":["about", "en"],
   "price":175,
   "vegan":false,
   "chicken":false,
@@ -28,7 +28,7 @@
   },
 
   {"disheName":"Spicy Cheeseburger",
-  "about":"about",
+  "about":["about", "en"],
   "price":155,
   "vegan":true,
   "chicken":false,
@@ -41,7 +41,7 @@
   },
 
   {"disheName":"Halloui Burgare",
-  "about":"about",
+  "about":["about", "en"],
   "price":255,
   "vegan":true,
   "chicken":false,
@@ -54,7 +54,7 @@
   },
 
   {"disheName":"Fish´n Chips",
-  "about":"about",
+  "about":["about", "en"],
   "price":255,
   "vegan":true,
   "chicken":false,

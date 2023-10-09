@@ -3,7 +3,7 @@ async function fetchJsonData() {
     try {
       const response = await fetch("index.json");
       const dishesData = await response.json();
-  
+    
       dishesData.forEach(element => {
         if (element.vegan === true) {
           console.log(element.disheName);
