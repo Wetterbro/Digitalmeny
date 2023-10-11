@@ -8,6 +8,10 @@
     "Pork":"Fläskkött",
     "Beef":"Nötkött",
     "Fish": "Fisk",
-    "Gluten free":"Glutenfri",
-    "Lactose free":"Laktosfri"
+    "GlutenFree":"Glutenfri",
+    "LactoseFree":"Laktosfri"
+
+
+
+
   }
