@@ -1,11 +1,19 @@
-//Imports data to the foodData object as an object from the JSON file
-import foodData from "./index.json" assert { type: "json" };
 
+const changelangEng = document.getElementById("englishButton");
+const changelangSe = document.getElementById("swedishButton");
 
+//Fetches json data
+async function fetchData(url) {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+const foodData = await fetchData("./index.json");
+const langEn = await fetchData("./english.json");
+const langSe = await fetchData("./swedish.json");
+console.log(foodData);
 
 /* ------ FILTER FUNCTIONS ------- */
-
-
 
 //returns an array with all VEGAN food items
 function getAllVegan() {
@@ -128,9 +136,24 @@ function sortAfterPrice(arrayToSort = foodData) {
 
 
 /* ------ GENERAL FUNCTIONS ------- */
-//TODO #8
-//Change the index number from 0 to 1
-//and update the content on all relevant places
-function changeLanguage(){
+changelangEng.addEventListener("click", function() {
+  changeLang(langEn);
+  //Set the var for selecting the right language in the json file
+});
 
-}
+changelangSe.addEventListener("click", function() {
+  changeLang(langSe);
+  //Set the var for selecting the right language in the json file
+});
+  function changeLang(LanguageFile) {
+    for (var key in LanguageFile) {
+      if (LanguageFile.hasOwnProperty(key)) {
+        var elements = document.querySelectorAll('[data-translate="' + key + '"]');
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].textContent = LanguageFile[key];
+        }
+      }
+    }
+  }
+
+
