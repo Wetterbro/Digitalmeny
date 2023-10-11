@@ -21,23 +21,19 @@
             <div class="collapse navbar-collapse justify-content-end pe-5" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Meny</a>
+                        <a class="nav-link active" aria-current="page" data-translate="Meny">Meny</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Beställ</a>
+                        <a class="nav-link" data-translate="Beställ">Beställ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Boka bord</a>
+                        <a class="nav-link" data-translate="Bokabord">Boka bord</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Språk
-                        </a>
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"aria-expanded="false" data-translate="Språk">Språk</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Se</a></li>
-                            <li><a class="dropdown-item">En</a></li>
-
+                            <li><a class="dropdown-item" id="swedishButton">Se</a></li>
+                            <li><a class="dropdown-item" id="englishButton">Eng</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -45,30 +41,33 @@
         </div>
     </nav>
 
+
+
+
     <div class="row justify-content-center">
         <div class="col-sm-9 col-md-9 col-lg-6 text-center">
             <div class="btn-group pb-2 " role="group" aria-label="Basic checkbox toggle button group">
                 <input type="checkbox" class="btn-check " id="btncheck1" autocomplete="off">
-                <label class="btn btn-outline-success " for="btncheck1"> <strong>Vegan</strong></label>
+                <label class="btn btn-outline-success " for="btncheck1"> <strong data-translate="Veganskt">Veganskt</strong></label>
 
                 <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                <label class="btn btn-outline-danger " for="btncheck2"><strong>Chicken</strong></label>
+                <label class="btn btn-outline-danger " for="btncheck2"><strong data-translate="Kyckling">Kyckling</strong></label>
 
                 <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                <label class="btn btn-outline-danger" for="btncheck3"><strong>Pork</strong></label>
+                <label class="btn btn-outline-danger" for="btncheck3"><strong data-translate="Fläskkött">Fläskkött</strong></label>
 
                 <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off">
-                <label class="btn btn-outline-danger" for="btncheck4"><strong>beef</strong></label>
+                <label class="btn btn-outline-danger" for="btncheck4"><strong data-translate="Nötkött">Nötkött</strong></label>
 
                 <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btncheck5"><strong>fish</strong></label>
+                <label class="btn btn-outline-primary" for="btncheck5"><strong data-translate="Fisk">Fisk</strong></label>
             </div>
-            <div class="btn-group pb-2" role="group" aria-label="Basic checkbox toggle button group">
+            <div class="btn-group text-center pb-2" role="group" aria-label="Basic checkbox toggle button group">
                 <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off">
-                <label class="btn btn-outline-dark" for="btncheck6"><strong>Glutenfri</strong></label>
+                <label class="btn btn-outline-dark" for="btncheck6"><strong data-translate="Glutenfri">Glutenfri</strong></label>
 
                 <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off">
-                <label class="btn btn-outline-dark" for="btncheck7"><strong>Laktosfri</strong></label>
+                <label class="btn btn-outline-dark" for="btncheck7"><strong data-translate="Laktosfri">Laktosfri</strong></label>
             </div>
             <!-- TODO 
             grid med alla maträtter 
