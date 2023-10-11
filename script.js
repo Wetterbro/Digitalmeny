@@ -9,9 +9,11 @@ async function fetchData(url) {
     return data;
 }
 const foodData = await fetchData("./index.json");
-const langEn = await fetchData("./english.json");
-const langSe = await fetchData("./swedish.json");
-console.log(foodData);
+
+//If is better then remove
+//const langEn = await fetchData("./english.json");
+//const langSe = await fetchData("./swedish.json");
+//console.log(foodData);
 
 /* ------ FILTER FUNCTIONS ------- */
 
@@ -137,6 +139,7 @@ function sortAfterPrice(arrayToSort = foodData) {
 
 /* ------ GENERAL FUNCTIONS ------- */
 changelangEng.addEventListener("click", function() {
+  
   changeLang(langEn);
   //Set the var for selecting the right language in the json file
 });
@@ -145,12 +148,12 @@ changelangSe.addEventListener("click", function() {
   changeLang(langSe);
   //Set the var for selecting the right language in the json file
 });
-  function changeLang(LanguageFile) {
-    for (var key in LanguageFile) {
-      if (LanguageFile.hasOwnProperty(key)) {
+  function changeLang(languageFile) {
+    for (var key in languageFile) {
+      if (languageFile.hasOwnProperty(key)) {
         var elements = document.querySelectorAll('[data-translate="' + key + '"]');
         for (var i = 0; i < elements.length; i++) {
-          elements[i].textContent = LanguageFile[key];
+          elements[i].textContent = languageFile[key];
         }
       }
     }
