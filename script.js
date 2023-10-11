@@ -1,3 +1,52 @@
+// Define a placeholder object to store the menu items container
+const placeHolder = {
+  menuItems: document.getElementById("output"),
+};
+// Fetch data from index.json 
+  fetch("index.json")
+  .then((res) => res.json())
+  .then((data) => {
+    // Loop through the data to create menu cards for each dish
+    data.forEach((dish) => {
+      const menuCard = createMenuCard(dish);              // Create a menu card for the dish
+      placeHolder.menuItems.appendChild(menuCard);        // Append the menu card to the container
+    });
+  })
+// Function to create a menu card for a dish
+function createMenuCard(dish) {
+  const menuCard = document.createElement("div");         // Create a div for the menu card
+  menuCard.classList.add("col-sm-6");                     // Add CSS classes to style the card
+
+  const cardBody = document.createElement("div");         // Create a div for the card body
+  cardBody.classList.add("card-body");                    // Add CSS classes for card body styling
+
+  const mbDiv = document.createElement("div");            // Create a div for margin bottom
+  mbDiv.classList.add("mb-3");                            // Add CSS classes for margin styling
+
+  // Generate HTML content for menu details using dish data
+  let menuDetailsHTML;
+  if (dish.halfprice) {
+     // If a half-price is defined, display it along with the regular price
+    menuDetailsHTML = `
+      <h3>${dish.disheName}, Halv ${dish.halfprice}kr / Hel ${dish.price}kr</h3>
+      <p>${dish.about}</p>
+    `;
+  } else {
+    // If no half-price is defined, display the regular price
+    menuDetailsHTML = `
+      <h3>${dish.disheName[0]} ${dish.price}kr</h3>
+      <p>${dish.about[0]}</p>
+    `;
+  }
+
+  mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
+  cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
+  menuCard.appendChild(cardBody);                         // Append the card body to the menu card
+
+  return menuCard;                                        // Return the created menu card
+ 
+}
+
 
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
