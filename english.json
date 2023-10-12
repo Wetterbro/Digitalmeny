@@ -9,5 +9,7 @@
     "Beef":"Beef",
     "Fish": "Fish",
     "Gluten free":"Gluten free",
-    "Lactose free":"Lactose free"
+    "Lactose free":"Lactose free",
+
+    "mainDish":"Main Course"
   }

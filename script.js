@@ -1,6 +1,14 @@
 
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
+const veganButton = document.getElementById("btncheck1");
+const chickenButton = document.getElementById("btncheck2");
+const porkButton = document.getElementById("btncheck3");
+const beefButton = document.getElementById("btncheck4");
+const fishButton = document.getElementById("btncheck5");
+const glutenFreeButton = document.getElementById("btncheck6");
+const lactoseFreeButton = document.getElementById("btncheck7");
+
 
 //Fetches json data
 async function fetchData(url) {
@@ -9,13 +17,11 @@ async function fetchData(url) {
     return data;
 }
 const foodData = await fetchData("./index.json");
+let foodDataLangSelect = 0;
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 let outputFoodData = foodData;
-
-
-
-
+document.onload = outputToDiv();
 
 
 /* ------ FILTER FUNCTIONS ------- */
@@ -143,11 +149,17 @@ function sortAfterPrice(arrayToSort = foodData) {
 changelangEng.addEventListener("click", function() {
   changeLang(langEn);
   //Set the var for selecting the right language in the json file
+  clearMenuCard()
+  foodDataLangSelect=1;
+  outputToDiv()
 });
 
 changelangSe.addEventListener("click", function() {
   changeLang(langSe);
   //Set the var for selecting the right language in the json file
+  clearMenuCard()
+  foodDataLangSelect=0;
+  outputToDiv()
 });
   function changeLang(languageFile) {
     for (var key in languageFile) {
@@ -162,9 +174,11 @@ changelangSe.addEventListener("click", function() {
  
 
 //Takes food array and puts them in to divs in the HTML file 
-outputFoodData.forEach(element => {
-  createMenuCard(element)
-});
+function outputToDiv(){
+  outputFoodData.forEach(element => {
+    createMenuCard(element)
+  });
+}
 
 /*------------HTML-------------*/
 // Function to create a menu card for a dish
@@ -190,8 +204,8 @@ function createMenuCard(dish) {
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-      <h3>${dish.disheName[0]} ${dish.price}kr</h3>
-      <p>${dish.about[0]}</p>
+      <h3>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h3>
+      <p>${dish.about[foodDataLangSelect]}</p>
     `;
   }
 
@@ -203,3 +217,9 @@ function createMenuCard(dish) {
   divOutput.appendChild(menuCard);
 }
 
+function clearMenuCard(){
+  const divOutput = document.getElementById("output");
+  while (divOutput.firstChild) {
+    divOutput.removeChild(divOutput.firstChild);
+ }
+}
