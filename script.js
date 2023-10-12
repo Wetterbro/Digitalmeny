@@ -47,7 +47,7 @@ function filterupdate() {
 
   let  collectedItems = [];
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     if (buttonStates[i]) {
       switch (i) {
         case 0:
@@ -263,17 +263,29 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-      <h3>${dish.disheName},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
-      <p>${dish.about}</p>
-      ${dish.vegan ? '<img src="assets\img\vegan.png" alt="Vegan icon">' : ''}
-    `;
+    <div class="row">
+      <div class="col-md-10">
+        <h3>${dish.disheName},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
+      </div>
+      <div class="col-md-2">
+        ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish">' : ''}
+      </div>
+    </div>
+    <p>${dish.about}</p>
+  `;
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-      <h3>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h3>
-      <p>${dish.about[foodDataLangSelect]}</p>
-      ${dish.vegan ? '<img  src="./assets/img/vegan.png" alt="Vegan icon">' : ''}
-    `;
+    <div class="row">
+      <div class="col-md-10">
+        <h3>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h3>
+      </div>
+      <div class="col-md-2">
+        ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon">' : ''}
+      </div>
+    </div>
+    <p>${dish.about[foodDataLangSelect]}</p>
+  `;
   }
 
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
