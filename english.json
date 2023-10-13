@@ -1,0 +1,15 @@
+{
+    "Menu": "Menu",
+    "Order": "Order",
+    "Reserve": "Reserve a table",
+    "Language": "Language",
+    "Vegan":"Vegetarian",
+    "Chicken":"Chicken",
+    "Pork":"Pork",
+    "Beef":"Beef",
+    "Fish": "Fish",
+    "GlutenFree":"Gluten free",
+    "LactoseFree":"Lactose free",
+
+    "mainDish":"Main Course"
+  }

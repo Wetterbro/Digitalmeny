@@ -1,0 +1,15 @@
+{
+    "Menu": "Meny",
+    "Order": "Beställ",
+    "Reserve": "Boka bord",
+    "Language": "Språk",
+    "Vegan":"Veganskt",
+    "Chicken":"Kyckling",
+    "Pork":"Fläskkött",
+    "Beef":"Nötkött",
+    "Fish": "Fisk",
+    "GlutenFree":"Glutenfri",
+    "LactoseFree":"Laktosfri",
+
+    "mainDish":"Varmrätter"
+  }
