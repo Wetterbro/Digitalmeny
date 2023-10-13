@@ -132,10 +132,10 @@
   "chicken":false,
   "pork":false,
   "beef":false,
-  "fish":true,
+  "fish":false,
 
   "lactoseFree":false,
-  "glutenFree":false
+  "glutenFree":true
   }
 ]
   
