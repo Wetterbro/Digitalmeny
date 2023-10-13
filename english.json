@@ -3,13 +3,13 @@
     "Order": "Order",
     "Reserve": "Reserve a table",
     "Language": "Language",
-    "Vegan":"Vegan",
+    "Vegan":"Vegetarian",
     "Chicken":"Chicken",
     "Pork":"Pork",
     "Beef":"Beef",
     "Fish": "Fish",
-    "Gluten free":"Gluten free",
-    "Lactose free":"Lactose free",
+    "GlutenFree":"Gluten free",
+    "LactoseFree":"Lactose free",
 
     "mainDish":"Main Course"
   }
