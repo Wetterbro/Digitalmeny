@@ -317,8 +317,16 @@ function createMenuCard(dish) {
     <p>${dish.about[foodDataLangSelect]}</p>
   `;
   }
+  const button = document.createElement("button");     // Create a button element
+  button.textContent = "Add to Cart";                  // Set the button text
+  button.classList.add("btn", "btn-outline-primary");  // Add CSS classes to style the button
+  // Add an event listener to handle button clicks
+  button.addEventListener("click", () => {
+    console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + dish.price);
+  });
 
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
+  mbDiv.appendChild(button);                              // Append the button to the margin div
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
   const divOutput = document.getElementById("output");
