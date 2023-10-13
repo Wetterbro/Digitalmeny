@@ -1,18 +1,13 @@
 
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
-/* const veganButton = document.getElementById("btncheck1");
-const chickenButton = document.getElementById("btncheck2");
-const porkButton = document.getElementById("btncheck3");
-const beefButton = document.getElementById("btncheck4");
-const fishButton = document.getElementById("btncheck5");
-const glutenFreeButton = document.getElementById("btncheck6");
-const lactoseFreeButton = document.getElementById("btncheck7"); */
-
-
-
-
-
+const veganButton = document.getElementById("btncheck1");
+const meatbuttons = [
+document.getElementById("btncheck2"),
+document.getElementById("btncheck3"),
+document.getElementById("btncheck4"),
+document.getElementById("btncheck5")
+];
 
 //Fetches json data
 async function fetchData(url) {
@@ -36,16 +31,19 @@ const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for b
 filterButtonArray.forEach(button => {
   button.addEventListener("input", function () {
     console.log(filterButtonArray);
+
     filterupdate();
   });
 });
 
 function filterupdate() {
- const buttonStates = Array.from(filterButtonArray).map(state => {
-  return state.checked
- });
 
-  let  collectedItems = [];
+  const buttonStates = Array.from(filterButtonArray).map(state => {
+    
+    return state.checked
+  });
+  disableButtonUpdate(buttonStates);
+  let collectedItems = [];
 
   for (let i = 0; i < 5; i++) {
     if (buttonStates[i]) {
@@ -68,20 +66,52 @@ function filterupdate() {
       }
     }
   }
-  if (collectedItems.length > 0) {
-  outputFoodData=collectedItems;
-  }else outputFoodData = foodData;
 
-  if(buttonStates[6]){
+  if (collectedItems.length > 0) {
+    collectedItems = removeDuplicates(collectedItems);
+    outputFoodData = collectedItems;
+  } else outputFoodData = foodData;
+
+  if (buttonStates[6]) {
     outputFoodData = removeLactose(outputFoodData);
   }
-  if(buttonStates[5]){
+  if (buttonStates[5]) {
     outputFoodData = removeGluten(outputFoodData);
   }
 
   //---------- if sort price -> sortprice()
   updateMenu()
 }
+
+function removeDuplicates(inputArray){
+  const uniqueArray = [];
+  inputArray.forEach(element => {
+    if (!uniqueArray.includes(element)) {
+      uniqueArray.push(element);
+    }
+  });
+  return uniqueArray;
+}
+
+
+function disableButtonUpdate(button){
+  if(button[0]){
+    meatbuttons.forEach(element => {
+      element.setAttribute("disabled", "");
+    });
+  }else{
+    //"undisable" all meat buttons
+    meatbuttons.forEach(element => {
+      element.removeAttribute("disabled", "");
+    });
+  }
+  if(button[1] || button[2] ||button[3] || button[4]){
+    veganButton.setAttribute("disabled", "");
+  }else{
+    veganButton.removeAttribute("disabled", "");
+  }
+}
+ 
 
 function getAllVegan() {
   const veganDishArray = [];
@@ -309,7 +339,7 @@ function clearMenuCard() {
   }
 }
 //updates the dishes on the menu
-function updateMenu(){
+function updateMenu() {
   clearMenuCard();
   outputToDiv();
 }
