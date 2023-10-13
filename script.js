@@ -295,13 +295,13 @@ function createMenuCard(dish) {
     menuDetailsHTML = `
     <div class="row">
       <div class="col-md-10">
-        <h3>${dish.disheName},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
+        <h3>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
       </div>
       <div class="col-md-2">
         ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish">' : ''}
       </div>
     </div>
-    <p>${dish.about}</p>
+    <p>${dish.about[foodDataLangSelect]}</p>
   `;
   } else {
     // If no half-price is defined, display the regular price
