@@ -293,27 +293,13 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <div class="row">
-      <div class="col-md-10">
-        <h2>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h2>
-      </div>
-      <div class="col-md-2">
-        ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish">' : ''}
-      </div>
-    </div>
+    <h2>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
   `;
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-    <div class="row">
-      <div class="col-md-10">
-        <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h2>
-      </div>
-      <div class="col-md-2">
-        ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon">' : ''}
-      </div>
-    </div>
+    <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
   `;
   }
