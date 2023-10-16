@@ -295,7 +295,7 @@ function createMenuCard(dish) {
     menuDetailsHTML = `
     <div class="row">
       <div class="col-md-10">
-        <h3>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
+        <h2>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h2>
       </div>
       <div class="col-md-2">
         ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish">' : ''}
@@ -308,7 +308,7 @@ function createMenuCard(dish) {
     menuDetailsHTML = `
     <div class="row">
       <div class="col-md-10">
-        <h3>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h3>
+        <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h2>
       </div>
       <div class="col-md-2">
         ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon">' : ''}
