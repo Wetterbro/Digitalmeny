@@ -285,32 +285,26 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <div class="row">
-      <div class="col-md-10">
-        <h3>${dish.disheName},  ${dish.price[0]}kr /  ${dish.price[1]}kr</h3>
-      </div>
-      <div class="col-md-2">
-        ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish">' : ''}
-      </div>
-    </div>
-    <p>${dish.about}</p>
+    <h2>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish" class="float-end">' : ''}</h2>
+    <p>${dish.about[foodDataLangSelect]}</p>
   `;
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-    <div class="row">
-      <div class="col-md-10">
-        <h3>${dish.disheName[foodDataLangSelect]} ${dish.price}kr</h3>
-      </div>
-      <div class="col-md-2">
-        ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon">' : ''}
-      </div>
-    </div>
+    <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
   `;
   }
+  const button = document.createElement("button");     // Create a button element
+  button.textContent = "Add to Cart";                  // Set the button text
+  button.classList.add("btn", "btn-outline-primary");  // Add CSS classes to style the button
+  // Add an event listener to handle button clicks
+  button.addEventListener("click", () => {
+    console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + dish.price);
+  });
 
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
+  mbDiv.appendChild(button);                              // Append the button to the margin div
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
   const divOutput = document.getElementById("output");
