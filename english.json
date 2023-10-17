@@ -11,6 +11,8 @@
     "GlutenFree":"Gluten free",
     "LactoseFree":"Lactose free",
     "addToCart": "Add to cart",
+    "highestPrice":"Highest price",
+    "lowestPrice":"Lowest price",
 
     "mainDish":"Main Course"
   }

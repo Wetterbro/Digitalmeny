@@ -11,6 +11,8 @@
     "GlutenFree":"Glutenfri",
     "LactoseFree":"Laktosfri",
     "addToCart": "Lägg till i varukorgen",
+    "highestPrice":"Högsta pris",
+    "lowestPrice":"Lägsta pris",
 
     "mainDish":"Varmrätter"
   }
