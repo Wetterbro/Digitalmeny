@@ -21,13 +21,10 @@ const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 let outputFoodData = foodData;
 document.onload = outputToDiv();
-
+const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
 
 /* ------ FILTER FUNCTIONS ------- */
 //returns an array with all VEGAN food items
-
-const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
-
 filterButtonArray.forEach(button => {
   button.addEventListener("input", function () {
     console.log(filterButtonArray);
@@ -227,10 +224,7 @@ function removeLactose(foodArray) {
   return withoutLactose;
 }
 
-
-
 /* ------ SORT FUNCTIONS ------- */
-
 /*Returns an array with food objects sorted after price
 If no array is passed as a parameter, 
 the functions returns ALL food items sorted after price */
@@ -245,7 +239,6 @@ function sortAfterPrice(arrayToSort = foodData) {
   return sortedArray;
 
 }
-
 
 /* ------ GENERAL FUNCTIONS ------- */
 changelangEng.addEventListener("click", function () {
@@ -273,7 +266,6 @@ function changeLang(languageFile) {
     }
   }
 }
-
 
 
 /*------------HTML-------------*/
