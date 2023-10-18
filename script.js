@@ -34,12 +34,8 @@ async function fetchData(url) {
 }
 
 //fetching JSON data
-
-
 const foodData = await fetchData("./index.json");
-let outputFoodData = [...foodData]
-
-
+let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 
@@ -52,6 +48,8 @@ document.onload = outputToDiv();
 filterButtonArray.forEach(button => {
 
   button.addEventListener("input", function () {
+    //console.log(filterButtonArray);
+
     filterupdate();
   });
 });
@@ -99,10 +97,9 @@ function filterupdate() {
     //removes dublicated times in the array
     collectedItems = removeDuplicates(collectedItems);
     outputFoodData = collectedItems;
-  } else outputFoodData = [...foodData];
-
-
-
+  } else outputFoodData = foodData;
+  
+  console.log(foodData);
 
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
@@ -209,6 +206,7 @@ sortingButtons[1].addEventListener("input", function () {
 });
 
 function sorting() {
+  console.log("klickar")
   for (let i = 0; i < sortingButtons.length; i++) {
     if (sortingButtons[i].checked) {
       switch (i) {
@@ -227,7 +225,11 @@ function sorting() {
 
 
   if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
+    console.log("sista")
+    
     filterupdate();
+    
+
   }
 
 }
@@ -244,7 +246,10 @@ function sortAfterPrice(arrayToSort = foodData) {
   sortedArray = arrayToSort.sort(function (firstValue, secondValue) {
     return firstValue.price[0] - secondValue.price[0]
   });
+
+
   return sortedArray;
+
 }
 
 /* ------ GENERAL FUNCTIONS ------- */
@@ -313,6 +318,17 @@ function createMenuCard(dish) {
     <button class="btn btn-outline-primary" data-translate="addToCart" data-price="${dish.price[0]}">Lägg till i varukorgen</button>
   `;
   }
+<<<<<<< HEAD
+=======
+  const button = document.createElement("button");     // Create a button element
+  button.textContent = foodDataLangSelect === 0 ? langSe.addToCart : langEn.addToCart; // Set the button text
+  button.classList.add("btn", "btn-outline-primary");  // Add CSS classes to style the button
+  // Add an event listener to handle button clicks
+  button.addEventListener("click", () => {
+    addToBasket(dish);
+    console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + dish.price);
+  });
+>>>>>>> parent of 3c877b9 (Edited out logs etc..)
 
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
@@ -374,6 +390,7 @@ function updateMenu() {
   outputToDiv();
 }
 //takes dish and adds it to customers basket
+<<<<<<< HEAD
 
 function addToBasket(dish, price) {
   // Create a copy of the dish with the selected price
@@ -383,6 +400,11 @@ function addToBasket(dish, price) {
   basket.push(dishCopy);
 
 
+=======
+function addToBasket(dish) {
+  console.log(dish);
+  basket.push(dish);
+>>>>>>> parent of 3c877b9 (Edited out logs etc..)
   updateBasket(basket);
 }
 
