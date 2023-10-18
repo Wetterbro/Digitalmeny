@@ -3,12 +3,12 @@
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
 const veganButton = document.getElementById("btncheck1");
-const filterButtons = document.querySelectorAll('.btn-check'); //Looks for all buttons with the btn-check class
 
-const sortButtons = [
-  document.getElementById("btncheck8"),
-  document.getElementById("btncheck9")
-]
+const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
+const sortingButtons = [document.getElementById("btncheck8"), document.getElementById("btncheck9")]
+
+
+
 
 //defining buttons
 const meatbuttons = [
@@ -34,8 +34,10 @@ async function fetchData(url) {
 }
 
 //fetching JSON data
+
+
 const foodData = await fetchData("./index.json");
-let outputFoodData = foodData;
+let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 
@@ -44,7 +46,9 @@ document.onload = outputToDiv();
 
 /* ------ FILTER FUNCTIONS ------- */
 
-filterButtons.forEach(button => {
+//returns an array with all VEGAN food items
+filterButtonArray.forEach(button => {
+
   button.addEventListener("input", function () {
     filterupdate();
   });
@@ -54,7 +58,7 @@ filterButtons.forEach(button => {
 //filters food items
 function filterupdate() {
   //checks what buttons is checked or not
-  const buttonStates = Array.from(filterButtons).map(state => {
+  const buttonStates = Array.from(filterButtonArray).map(state => {
     return state.checked
   });
   //disables buttons depending on whats already checked
@@ -93,7 +97,10 @@ function filterupdate() {
     //removes dublicated times in the array
     collectedItems = removeDuplicates(collectedItems);
     outputFoodData = collectedItems;
-  } else outputFoodData = foodData;
+  } else outputFoodData = [...foodData];
+
+
+
 
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
@@ -103,8 +110,11 @@ function filterupdate() {
     outputFoodData = removeGluten(outputFoodData);
   }
 
+
+
   //---------- if sort price -> sortprice()
   updateMenu()
+
 }
 //takes array and removes duplicates and sends array back
 function removeDuplicates(inputArray) {
@@ -136,7 +146,14 @@ function disableButtonUpdate(button) {
   } else {
     veganButton.removeAttribute("disabled", "");
   }
+
+
+
 }
+
+
+
+
 
 //returns an array with all VEGAN food items
 function getAllVegan() {
@@ -175,6 +192,50 @@ function removeLactose(foodArray) {
 }
 
 /* ------ SORT FUNCTIONS ------- */
+/* sortingButtons.forEach(button => {
+  button.addEventListener("input", function () {
+
+    sortAfterPrice(button, outputFoodData);
+  });
+}); */
+
+
+sortingButtons[0].addEventListener("input", function () {
+  sortingButtons[1].checked = false
+  sorting();
+});
+
+sortingButtons[1].addEventListener("input", function () {
+  sortingButtons[0].checked = false
+  sorting();
+});
+
+function sorting() {
+  for (let i = 0; i < sortingButtons.length; i++) {
+    if (sortingButtons[i].checked) {
+      switch (i) {
+        case 0:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          outputFoodData = outputFoodData.reverse();
+          break;
+        case 1:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          break;
+      }
+
+      updateMenu();
+    }
+  }
+
+
+  if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
+    filterupdate();
+  }
+
+}
+
+
+
 /*Returns an array with food objects sorted after price
 If no array is passed as a parameter, 
 the functions returns ALL food items sorted after price */
@@ -182,12 +243,10 @@ function sortAfterPrice(arrayToSort = foodData) {
   let sortedArray = [];
 
   //Compares two values in the array and sorts them accordingly
-  sortedArray = foodData.sort(function (firstValue, secondValue) {
-    return firstValue.price - secondValue.price
+  sortedArray = arrayToSort.sort(function (firstValue, secondValue) {
+    return firstValue.price[0] - secondValue.price[0]
   });
-
   return sortedArray;
-
 }
 
 /* ------ GENERAL FUNCTIONS ------- */
@@ -256,20 +315,10 @@ function createMenuCard(dish) {
     <button class="btn btn-outline-primary" data-translate="addToCart" data-price="${dish.price[0]}">Lägg till i varukorgen</button>
   `;
   }
-  
+
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
-
-  // Add event listeners to handle button clicks
-  const buttons = mbDiv.querySelectorAll("button");
-  buttons.forEach(button => {
-    button.addEventListener("click", (event) => {
-      const price = event.target.getAttribute("data-price");
-      addToBasket(dish, price);
-      console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + " " + price + "kr");
-    });
-  });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 }
@@ -317,12 +366,14 @@ function updateMenu() {
   outputToDiv();
 }
 //takes dish and adds it to customers basket
+
 function addToBasket(dish, price) {
   // Create a copy of the dish with the selected price
   const dishCopy = { ...dish, price };
 
   // Add the new dish to the basket
   basket.push(dishCopy);
+
 
   updateBasket(basket);
 }
