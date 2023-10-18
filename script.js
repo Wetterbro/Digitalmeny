@@ -312,7 +312,7 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]},  ${dish.price[0]}kr /  ${dish.price[1]}kr ${dish.vegan ? '<img src="vegan-image.jpg" alt="Vegan Dish" class="float-end">' : ''}</h2>
+    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="half circle"> ${dish.price[0]}kr <img src="./assets/img/full.png" alt="full circle"> ${dish.price[1]}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
   `;
   } else {
@@ -323,7 +323,7 @@ function createMenuCard(dish) {
   `;
   }
   const button = document.createElement("button");     // Create a button element
-  button.textContent = "Add to Cart";                  // Set the button text
+  button.textContent = foodDataLangSelect === 0 ? langSe.addToCart : langEn.addToCart; // Set the button text
   button.classList.add("btn", "btn-outline-primary");  // Add CSS classes to style the button
   // Add an event listener to handle button clicks
   button.addEventListener("click", () => {
