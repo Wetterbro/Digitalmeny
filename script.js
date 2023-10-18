@@ -4,6 +4,9 @@ const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
 const veganButton = document.getElementById("btncheck1");
 const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
+const sortingButtons = [document.getElementById("btncheck8"), document.getElementById("btncheck9")]
+
+
 
 //defining buttons
 const meatbuttons = [
@@ -29,7 +32,7 @@ async function fetchData(url) {
 
 //fetching JSON data
 const foodData = await fetchData("./index.json");
-let outputFoodData = foodData;
+let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 
@@ -40,11 +43,13 @@ document.onload = outputToDiv();
 //returns an array with all VEGAN food items
 filterButtonArray.forEach(button => {
   button.addEventListener("input", function () {
-    console.log(filterButtonArray);
+    //console.log(filterButtonArray);
 
     filterupdate();
   });
 });
+
+
 
 //filters food items
 function filterupdate() {
@@ -89,6 +94,8 @@ function filterupdate() {
     collectedItems = removeDuplicates(collectedItems);
     outputFoodData = collectedItems;
   } else outputFoodData = foodData;
+  
+  console.log(foodData);
 
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
@@ -98,8 +105,11 @@ function filterupdate() {
     outputFoodData = removeGluten(outputFoodData);
   }
 
+
+
   //---------- if sort price -> sortprice()
   updateMenu()
+
 }
 //takes array and removes duplicates and sends array back
 function removeDuplicates(inputArray) {
@@ -131,6 +141,9 @@ function disableButtonUpdate(button) {
   } else {
     veganButton.removeAttribute("disabled", "");
   }
+
+
+
 }
 
 
@@ -252,6 +265,55 @@ function removeLactose(foodArray) {
 }
 
 /* ------ SORT FUNCTIONS ------- */
+/* sortingButtons.forEach(button => {
+  button.addEventListener("input", function () {
+
+    sortAfterPrice(button, outputFoodData);
+  });
+}); */
+
+
+sortingButtons[0].addEventListener("input", function () {
+  sortingButtons[1].checked = false
+  sorting();
+});
+
+sortingButtons[1].addEventListener("input", function () {
+  sortingButtons[0].checked = false
+  sorting();
+});
+
+function sorting() {
+  console.log("klickar")
+  for (let i = 0; i < sortingButtons.length; i++) {
+    if (sortingButtons[i].checked) {
+      switch (i) {
+        case 0:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          outputFoodData = outputFoodData.reverse();
+          break;
+        case 1:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          break;
+      }
+
+      updateMenu();
+    }
+  }
+
+
+  if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
+    console.log("sista")
+    
+    filterupdate();
+    
+
+  }
+
+}
+
+
+
 /*Returns an array with food objects sorted after price
 If no array is passed as a parameter, 
 the functions returns ALL food items sorted after price */
@@ -259,9 +321,10 @@ function sortAfterPrice(arrayToSort = foodData) {
   let sortedArray = [];
 
   //Compares two values in the array and sorts them accordingly
-  sortedArray = foodData.sort(function (firstValue, secondValue) {
-    return firstValue.price - secondValue.price
+  sortedArray = arrayToSort.sort(function (firstValue, secondValue) {
+    return firstValue.price[0] - secondValue.price[0]
   });
+
 
   return sortedArray;
 
