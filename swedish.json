@@ -10,6 +10,10 @@
     "Fish": "Fisk",
     "GlutenFree":"Glutenfri",
     "LactoseFree":"Laktosfri",
-
+    "addToCart": "Lägg till i varukorgen",
+    "addToCartHalf": "Lägg till i varukorgen (Halv)",
+    "addToCartFull": "Lägg till i varukorgen (Hel)",
+    "highestPrice":"Högsta pris",
+    "lowestPrice":"Lägsta pris",
     "mainDish":"Varmrätter"
   }
