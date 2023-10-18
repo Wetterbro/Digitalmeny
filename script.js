@@ -58,7 +58,7 @@ filterButtonArray.forEach(button => {
 //filters food items
 function filterupdate() {
   //checks what buttons is checked or not
-  const buttonStates = Array.from(filterButtons).map(state => {
+  const buttonStates = Array.from(filterButtonArray).map(state => {
     return state.checked
   });
   //disables buttons depending on whats already checked
@@ -149,6 +149,10 @@ function disableButtonUpdate(button) {
 
 
 }
+
+
+
+
 
 //returns an array with all VEGAN food items
 function getAllVegan() {
@@ -333,16 +337,6 @@ function createMenuCard(dish) {
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
-
-  // Add event listeners to handle button clicks
-  const buttons = mbDiv.querySelectorAll("button");
-  buttons.forEach(button => {
-    button.addEventListener("click", (event) => {
-      const price = event.target.getAttribute("data-price");
-      addToBasket(dish, price);
-      console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + " " + price + "kr");
-    });
-  });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 }
