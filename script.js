@@ -133,6 +133,10 @@ function disableButtonUpdate(button) {
   }
 }
 
+
+
+
+
 //returns an array with all VEGAN food items
 function getAllVegan() {
   const veganDishArray = [];
