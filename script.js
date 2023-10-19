@@ -78,7 +78,7 @@ changelangEng.addEventListener("click", function () {
   foodDataLangSelect = 1;
   outputToDiv()
   changeLang(langEn);
-  
+  updateBasket(basket)
 });
 
 //Event for changing language to english
@@ -88,6 +88,7 @@ changelangSe.addEventListener("click", function () {
   foodDataLangSelect = 0;
   outputToDiv()
   changeLang(langSe);
+  updateBasket(basket);
 });
 
 // -------- Checkout button --------- 
