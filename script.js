@@ -47,8 +47,24 @@ document.onload = outputToDiv();
 /* ------ FILTER FUNCTIONS ------- */
 
 //returns an array with all VEGAN food items
-filterButtonArray.forEach(button => {
 
+
+
+
+veganButton.addEventListener("input", function () {
+  meatbuttons.forEach(button => {
+    button.checked = false
+  });
+});
+
+
+meatbuttons.forEach(button => {
+  button.addEventListener("input", function () {
+    veganButton.checked = false
+  });
+});
+
+filterButtonArray.forEach(button => {
   button.addEventListener("input", function () {
     filterupdate();
   });
@@ -57,12 +73,24 @@ filterButtonArray.forEach(button => {
 
 //filters food items
 function filterupdate() {
+
+
+
+
+
+
   //checks what buttons is checked or not
   const buttonStates = Array.from(filterButtonArray).map(state => {
     return state.checked
   });
+
+
+
+  // THIS IS COMMENTED OUT BECAUSE TESTING; THIS SHOULD OTERWISE BE ENDABLED!!! -----------
   //disables buttons depending on whats already checked
-  disableButtonUpdate(buttonStates);
+  // disableButtonUpdate(buttonStates);
+
+
   //new array for storing the collected food items
   let collectedItems = [];
   //loops through all the button states and collects the items for every checked category 
@@ -127,6 +155,15 @@ function removeDuplicates(inputArray) {
   return uniqueArray;
 }
 
+// --------------- Trying to improve the filtering diabling --------------- 
+
+
+
+
+
+
+// -------- !!! THIS WORKS  !!! ------------- 
+
 //disable buttons depending on what filters is already set
 function disableButtonUpdate(button) {
   //disable all meat dishes if vegan filter is activ
@@ -146,12 +183,9 @@ function disableButtonUpdate(button) {
   } else {
     veganButton.removeAttribute("disabled", "");
   }
-
-
-
 }
 
-
+// -----------------------------------------------------------------------
 
 
 
@@ -319,14 +353,14 @@ function createMenuCard(dish) {
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
-    // Add event listeners to handle button clicks
-    const buttons = mbDiv.querySelectorAll("button");
-    buttons.forEach(button => {
-      button.addEventListener("click", (event) => {
+  // Add event listeners to handle button clicks
+  const buttons = mbDiv.querySelectorAll("button");
+  buttons.forEach(button => {
+    button.addEventListener("click", (event) => {
       const price = event.target.getAttribute("data-price");
-        addToBasket(dish, price);
-      });
+      addToBasket(dish, price);
     });
+  });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 }

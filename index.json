@@ -104,7 +104,7 @@
   {"disheName":["Krämig Kycklingpasta","Creamy Chickenpasta"],
   "about":["Soltorkade tomater, basilika, grönsaker och parmesan", "Sundried tomatoes, basil, vegetables and parmesan"],
   "price":[169],
-  "vegan":true,
+  "vegan":false,
   "chicken":true,
   "pork":false,
   "beef":false,
