@@ -3,7 +3,12 @@
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
 const veganButton = document.getElementById("btncheck1");
+
 const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
+const sortingButtons = [document.getElementById("btncheck8"), document.getElementById("btncheck9")]
+
+
+
 
 //defining buttons
 const meatbuttons = [
@@ -13,7 +18,8 @@ const meatbuttons = [
   document.getElementById("btncheck5")
 ];
 
-//defining variables
+const checkoutbutton = document.getElementById("checkout");
+//defining variables-
 let basket = []
 let foodDataLangSelect = 0;
 
@@ -28,8 +34,10 @@ async function fetchData(url) {
 }
 
 //fetching JSON data
+
+
 const foodData = await fetchData("./index.json");
-let outputFoodData = foodData;
+let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 
@@ -37,14 +45,15 @@ const langSe = await fetchData("./swedish.json");
 document.onload = outputToDiv();
 
 /* ------ FILTER FUNCTIONS ------- */
+
 //returns an array with all VEGAN food items
 filterButtonArray.forEach(button => {
-  button.addEventListener("input", function () {
-    console.log(filterButtonArray);
 
+  button.addEventListener("input", function () {
     filterupdate();
   });
 });
+
 
 //filters food items
 function filterupdate() {
@@ -88,7 +97,10 @@ function filterupdate() {
     //removes dublicated times in the array
     collectedItems = removeDuplicates(collectedItems);
     outputFoodData = collectedItems;
-  } else outputFoodData = foodData;
+  } else outputFoodData = [...foodData];
+
+
+
 
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
@@ -98,8 +110,11 @@ function filterupdate() {
     outputFoodData = removeGluten(outputFoodData);
   }
 
+
+
   //---------- if sort price -> sortprice()
   updateMenu()
+
 }
 //takes array and removes duplicates and sends array back
 function removeDuplicates(inputArray) {
@@ -131,6 +146,9 @@ function disableButtonUpdate(button) {
   } else {
     veganButton.removeAttribute("disabled", "");
   }
+
+
+
 }
 
 
@@ -139,102 +157,24 @@ function disableButtonUpdate(button) {
 
 //returns an array with all VEGAN food items
 function getAllVegan() {
-  const veganDishArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.vegan === true) {
-      veganDishArray.push(currentFood)
-    }
-  }
-  return veganDishArray
+  return foodData.filter(Food => Food.vegan === true);
 }
 //returns an array with all CHICKEN food items
 function getAllChicken() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.chicken === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
+  return foodData.filter(Food => Food.chicken === true);
 }
 //returns an array with all PORK food items
 function getAllPork() {
   const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.pork === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
+  return foodData.filter(Food => Food.pork === true);
 }
 //returns an array with all BEEF food items
 function getAllBeef() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.beef === true) {
-      returnArray.push(currentFood)
-
-    }
-  }
-
-  return returnArray
-
+  return foodData.filter(Food => Food.beef === true);
 }
 //returns an array with all FISH food items
 function getAllFish() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.fish === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
-//Returns an array with all food items containing LACTOSE
-function getAllLactose() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    //Checks if GLUTEN free is false, if so the food contains lactose
-    if (currentFood.lactoseFree === false) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
-//Returns an array with all food items containing GLUTEN
-function getAllGluten() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    //Checks if GLUTEN free is false, if so the food contains lactose
-    if (currentFood.glutenFree === false) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
+  return foodData.filter(Food => Food.fish === true);
 }
 //removes all dishes including gluten and returns the rest
 function removeGluten(foodArray) {
@@ -252,6 +192,50 @@ function removeLactose(foodArray) {
 }
 
 /* ------ SORT FUNCTIONS ------- */
+/* sortingButtons.forEach(button => {
+  button.addEventListener("input", function () {
+
+    sortAfterPrice(button, outputFoodData);
+  });
+}); */
+
+
+sortingButtons[0].addEventListener("input", function () {
+  sortingButtons[1].checked = false
+  sorting();
+});
+
+sortingButtons[1].addEventListener("input", function () {
+  sortingButtons[0].checked = false
+  sorting();
+});
+
+function sorting() {
+  for (let i = 0; i < sortingButtons.length; i++) {
+    if (sortingButtons[i].checked) {
+      switch (i) {
+        case 0:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          outputFoodData = outputFoodData.reverse();
+          break;
+        case 1:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          break;
+      }
+
+      updateMenu();
+    }
+  }
+
+
+  if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
+    filterupdate();
+  }
+
+}
+
+
+
 /*Returns an array with food objects sorted after price
 If no array is passed as a parameter, 
 the functions returns ALL food items sorted after price */
@@ -259,31 +243,29 @@ function sortAfterPrice(arrayToSort = foodData) {
   let sortedArray = [];
 
   //Compares two values in the array and sorts them accordingly
-  sortedArray = foodData.sort(function (firstValue, secondValue) {
-    return firstValue.price - secondValue.price
+  sortedArray = arrayToSort.sort(function (firstValue, secondValue) {
+    return firstValue.price[0] - secondValue.price[0]
   });
-
   return sortedArray;
-
 }
 
 /* ------ GENERAL FUNCTIONS ------- */
 //Event for changing language to english
 changelangEng.addEventListener("click", function () {
-  changeLang(langEn);
   //Set the var for selecting the right language in the json file.
   clearMenuCard()
   foodDataLangSelect = 1;
   outputToDiv()
+  changeLang(langEn);
 });
 
 //Event for changing language to english
 changelangSe.addEventListener("click", function () {
-  changeLang(langSe);
   //Set the var for selecting the right language in the json file.
   clearMenuCard()
   foodDataLangSelect = 0;
   outputToDiv()
+  changeLang(langSe);
 });
 
 //takes language file and finds all elements with a translate key and changes its text to the maching key in the language file.
@@ -293,6 +275,7 @@ function changeLang(languageFile) {
       var elements = document.querySelectorAll("[data-translate=" + key + "]");
       for (var i = 0; i < elements.length; i++) {
         elements[i].textContent = languageFile[key];
+        console.log(key);
       }
     }
   }
@@ -313,32 +296,37 @@ function createMenuCard(dish) {
 
   // Generate HTML content for menu details using dish data
   let menuDetailsHTML;
+
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="half circle"> ${dish.price[0]}kr <img src="./assets/img/full.png" alt="full circle"> ${dish.price[1]}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
+    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="full circle">
+     ${dish.price[1]}kr <img src="./assets/img/full.png" alt="half circle"> ${dish.price[0]}kr
+     ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
+    <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[1]}">Lägg till i varukorgen (Halv)</button>
+    <button class="btn btn-outline-primary" data-translate="addToCartFull" data-price="${dish.price[0]}">Lägg till i varukorgen (Hel)</button>
   `;
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
     <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
+    <button class="btn btn-outline-primary" data-translate="addToCart" data-price="${dish.price[0]}">Lägg till i varukorgen</button>
   `;
   }
-  const button = document.createElement("button");     // Create a button element
-  button.textContent = foodDataLangSelect === 0 ? langSe.addToCart : langEn.addToCart; // Set the button text
-  button.classList.add("btn", "btn-outline-primary");  // Add CSS classes to style the button
-  // Add an event listener to handle button clicks
-  button.addEventListener("click", () => {
-    addToBasket(dish);
-    console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + dish.price);
-  });
 
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
-  mbDiv.appendChild(button);                              // Append the button to the margin div
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
+    // Add event listeners to handle button clicks
+    const buttons = mbDiv.querySelectorAll("button");
+    buttons.forEach(button => {
+      button.addEventListener("click", (event) => {
+      const price = event.target.getAttribute("data-price");
+        addToBasket(dish, price);
+      });
+    });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 }
@@ -386,11 +374,18 @@ function updateMenu() {
   outputToDiv();
 }
 //takes dish and adds it to customers basket
-function addToBasket(dish) {
-  console.log(dish);
-  basket.push(dish);
+
+function addToBasket(dish, price) {
+  // Create a copy of the dish with the selected price
+  const dishCopy = { ...dish, price };
+
+  // Add the new dish to the basket
+  basket.push(dishCopy);
+
+
   updateBasket(basket);
 }
+
 //takes a dish input and removes it to customers basket
 function removeFromBasket(dish) {
   for (let index = 0; index < basket.length; index++) {
@@ -422,7 +417,10 @@ function updateBasket(dishlist) {
 function calcTotalPrice() {
   let total = 0;
   basket.forEach(element => {
-    total += element.price[0];
+    total += parseInt(element.price); // Use parseFloat to handle potential string inputs
   });
-  return total
+  return total;
 }
+checkoutbutton.addEventListener("click", function () {
+  alert("Function is still in development");
+});
