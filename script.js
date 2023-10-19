@@ -300,12 +300,12 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="half circle">
-     ${dish.price[0]}kr <img src="./assets/img/full.png" alt="full circle"> ${dish.price[1]}kr
+    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/full.png" alt="full circle">
+     ${dish.price[0]}kr <img src="./assets/img/half_full.png" alt="half circle"> ${dish.price[1]}kr
      ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
-    <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[0]}">Lägg till i varukorgen (Halv)</button>
-    <button class="btn btn-outline-primary" data-translate="addToCartFull" data-price="${dish.price[1]}">Lägg till i varukorgen (Hel)</button>
+    <button class="btn btn-outline-primary" data-translate="addToCartFull" data-price="${dish.price[0]}">Lägg till i varukorgen (Hel)</button>
+    <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[1]}">Lägg till i varukorgen (Halv)</button>
   `;
   } else {
     // If no half-price is defined, display the regular price
@@ -319,6 +319,14 @@ function createMenuCard(dish) {
   mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
   cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
+    // Add event listeners to handle button clicks
+    const buttons = mbDiv.querySelectorAll("button");
+    buttons.forEach(button => {
+      button.addEventListener("click", (event) => {
+      const price = event.target.getAttribute("data-price");
+        addToBasket(dish, price);
+      });
+    });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 }
