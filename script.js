@@ -7,7 +7,7 @@ const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for b
 const veganButton = document.getElementById("btncheck1");
 const sortingButtons = [document.getElementById("btncheck8"), document.getElementById("btncheck9")]
 const checkoutbutton = document.getElementById("checkout");
-
+const basketbutton = document.getElementById("showBasketButton");
 const toastTrigger = document.getElementById('liveToastBtn')
 //TODO Change name
 const toastWindow = document.getElementById('liveToast')
@@ -40,39 +40,39 @@ const langSe = await fetchData("./swedish.json");
 /* ---------------------------------- BUTTONS / EVENTLISTENERS ------------------------------------- */
 
 // -------- Filtering buttons --------- 
-veganButton.addEventListener("input", function () {
+veganButton.addEventListener("input", () => {
   meatbuttons.forEach(button => {
     button.checked = false
   });
 });
 
 meatbuttons.forEach(button => {
-  button.addEventListener("input", function () {
+  button.addEventListener("input", () => {
     veganButton.checked = false
   });
 });
 
 filterButtonArray.forEach(button => {
-  button.addEventListener("input", function () {
+  button.addEventListener("input", () => {
     filterupdate();
   });
 });
 
 // -------- Sorting buttons --------- 
 //TODO Change name 
-sortingButtons[0].addEventListener("input", function () {
+sortingButtons[0].addEventListener("input", () => {
   sortingButtons[1].checked = false
   filterupdate();
 });
 //TODO Change name 
-sortingButtons[1].addEventListener("input", function () {
+sortingButtons[1].addEventListener("input", () => {
   sortingButtons[0].checked = false
   filterupdate();
 });
 
 // -------- Language selection buttons --------- 
 //Event for changing language to english
-changelangEng.addEventListener("click", function () {
+changelangEng.addEventListener("input", () => {
   //Set the let for selecting the right language in the json file.
   clearMenuCard()
   foodDataLangSelect = 1;
@@ -82,7 +82,7 @@ changelangEng.addEventListener("click", function () {
 });
 
 //Event for changing language to english
-changelangSe.addEventListener("click", function () {
+changelangSe.addEventListener("click", () => {
   //Set the let for selecting the right language in the json file.
   clearMenuCard()
   foodDataLangSelect = 0;
@@ -92,10 +92,14 @@ changelangSe.addEventListener("click", function () {
 });
 
 // -------- Checkout button --------- 
-checkoutbutton.addEventListener("click", function () {
-  alert("Function is still in development");
+checkoutbutton.addEventListener("click", () => {
+  alert(CheckoutMessage(basket));
+  
 });
-
+// -------- Shows basket if clicked ---------
+basketbutton.addEventListener("click", () => {
+  updateBasket(basket);
+});
 
 /* ---------------------------------- FILTER FUNCTIONS ------------------------------------- */
 
@@ -256,6 +260,22 @@ function changeLang(languageFile) {
   }
 }
 
+function CheckoutMessage(basket) {
+  if (basket.length === 0) {
+    return "The site is still under development. \n Please add items to your basket.";
+  }
+
+  let message = "The site is still under development \nItems in your basket:\n";
+  basket.forEach((item) => {
+    message += `${item.disheName[foodDataLangSelect]} - ${item.price} kr\n`;
+  });
+
+  message += `Total: ${calcTotalPrice()} kr`;
+
+  return message;
+}
+
+
 
 
 /* ---------------------------------- HTML FUNCTIONS ------------------------------------- */
@@ -350,8 +370,8 @@ function displayBasket(dish) {
   <p>${dish.disheName[foodDataLangSelect]}  ${dish.price} kr<p> 
   `;
   const button = document.createElement("button");
-  button.textContent = "Remove";
-  button.classList.add("btn", "btn-outline-primary", "flex-wrap");
+  button.innerHTML = '<i class="fas fa-trash"></i>';
+  button.classList.add("btn", "btn-outline-danger", "flex-wrap");
 
   button.addEventListener("click", () => {
     removeFromBasket(dish);
@@ -373,6 +393,9 @@ function addToBasket(dish, price) {
   // Add the new dish to the basket
   basket.push(dishCopy);
   updateBasket(basket);
+  if(basket.length > 0){
+    basketbutton.disabled = false;
+  }
 }
 
 //takes a dish input and removes it from the customers basket
@@ -384,6 +407,9 @@ function removeFromBasket(dish) {
     }
   }
   updateBasket(basket)
+  if(basket.length == 0){
+    basketbutton.disabled = true;
+  }
 }
 
 //takes an array of dishes, removes all objects in the toast window and updates everything in the input array.
