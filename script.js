@@ -72,7 +72,7 @@ sortingButtons[1].addEventListener("input", () => {
 
 // -------- Language selection buttons --------- 
 //Event for changing language to english
-changelangEng.addEventListener("input", () => {
+changelangEng.addEventListener("click", () => {
   //Set the let for selecting the right language in the json file.
   clearMenuCard()
   foodDataLangSelect = 1;
