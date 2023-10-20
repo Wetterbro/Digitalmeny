@@ -100,8 +100,6 @@ function filterupdate() {
   } else outputFoodData = [...foodData];
 
 
-
-
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
     outputFoodData = removeLactose(outputFoodData);
@@ -109,12 +107,8 @@ function filterupdate() {
   if (buttonStates[5]) {
     outputFoodData = removeGluten(outputFoodData);
   }
-
-
-
   //---------- if sort price -> sortprice()
   updateMenu()
-
 }
 //takes array and removes duplicates and sends array back
 function removeDuplicates(inputArray) {
@@ -146,14 +140,7 @@ function disableButtonUpdate(button) {
   } else {
     veganButton.removeAttribute("disabled", "");
   }
-
-
-
 }
-
-
-
-
 
 //returns an array with all VEGAN food items
 function getAllVegan() {
@@ -191,15 +178,6 @@ function removeLactose(foodArray) {
   return withoutLactose;
 }
 
-/* ------ SORT FUNCTIONS ------- */
-/* sortingButtons.forEach(button => {
-  button.addEventListener("input", function () {
-
-    sortAfterPrice(button, outputFoodData);
-  });
-}); */
-
-
 sortingButtons[0].addEventListener("input", function () {
   sortingButtons[1].checked = false
   sorting();
@@ -226,12 +204,9 @@ function sorting() {
       updateMenu();
     }
   }
-
-
   if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
     filterupdate();
   }
-
 }
 
 
@@ -280,7 +255,6 @@ function changeLang(languageFile) {
     }
   }
 }
-
 
 /*------------HTML-------------*/
 // Function to create a menu card for a dish
@@ -339,8 +313,8 @@ function displayBasket(dish) {
   <p>${dish.disheName[foodDataLangSelect]}  ${dish.price} kr<p> 
 `;
   const button = document.createElement("button");
-  button.textContent = "Remove";
-  button.classList.add("btn", "btn-outline-primary", "flex-wrap");
+  button.innerHTML = '<i class="fas fa-trash"></i>';
+  button.classList.add("btn", "btn-outline-danger", "flex-wrap");
 
   button.addEventListener("click", () => {
     removeFromBasket(dish);
@@ -381,8 +355,6 @@ function addToBasket(dish, price) {
 
   // Add the new dish to the basket
   basket.push(dishCopy);
-
-
   updateBasket(basket);
 }
 
