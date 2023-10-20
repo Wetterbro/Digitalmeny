@@ -291,8 +291,9 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.dishName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="full circle">
-     ${dish.price[1]}kr <img src="./assets/img/full.png" alt="half circle"> ${dish.price[0]}kr
+    <h2>${dish.dishName[foodDataLangSelect]} <i class="fa-solid fa-circle-half-stroke fa-2xs"></i>
+    </i>
+     ${dish.price[1]}kr <i class="fa-solid fa-circle fa-2xs"></i> ${dish.price[0]}kr
      ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
     <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[1]}">Lägg till i varukorgen (Halv)</button>
