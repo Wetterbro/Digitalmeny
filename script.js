@@ -160,9 +160,9 @@ function filterupdate() {
     outputFoodData = removeGluten(outputFoodData);
   }
 
-if(sortingButtons[0].checked || sortingButtons[1].checked){
-  sortingSelector();
-}
+  if (sortingButtons[0].checked || sortingButtons[1].checked) {
+    sortingSelector();
+  }
 
   //---------- if sort price -> sortprice()
   updateMenu();
@@ -286,10 +286,7 @@ function createMenuCard(dish) {
   menuCard.classList.add("col-sm-6");                     // Add CSS classes to style the card
 
   const cardBody = document.createElement("div");          // Create a div for the card body
-  cardBody.classList.add("card-body");                    // Add CSS classes for card body styling
-
-  const mbDiv = document.createElement("div");           // Create a div for margin bottom
-  mbDiv.classList.add("mb-3");                            // Add CSS classes for margin styling
+  cardBody.classList.add("card-body" , "mb-3");                    // Add CSS classes for card body styling
 
   // Generate HTML content for menu details using dish data
   let menuDetailsHTML;
@@ -313,13 +310,11 @@ function createMenuCard(dish) {
   `;
   }
 
-
-
-  mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
-  cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
+  cardBody.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
+                             
   menuCard.appendChild(cardBody);                         // Append the card body to the menu card
   // Add event listeners to handle button clicks
-  const buttons = mbDiv.querySelectorAll("button");
+  const buttons = cardBody.querySelectorAll("button");
   buttons.forEach(button => {
     button.addEventListener("click", (event) => {
       const price = event.target.getAttribute("data-price");
@@ -329,21 +324,32 @@ function createMenuCard(dish) {
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
 
-  if(foodDataLangSelect == 0){
+  if (foodDataLangSelect == 0) {
     changeLang(langSe)
-  }else{
+  } else {
     changeLang(langEn)
   }
 }
 
 
-
+function noDishesFound() {
+  clearMenuCard()
+  const noDishesElement = `<h3>${foodDataLangSelect === 0 ? langSe.noDishes : langEn.noDishes}</h3>` 
+  const viewToDiv = document.getElementById("output");
+  viewToDiv.insertAdjacentHTML("beforeEnd" , noDishesElement)
+ 
+}
 //Takes food array and puts them in to divs in the HTML file 
 //TODO Change namne
 function outputToDiv() {
-  outputFoodData.forEach(element => {
-    createMenuCard(element)
-  });
+  if (outputFoodData.length <= 0) {
+    
+    noDishesFound()
+  } else {
+    outputFoodData.forEach(element => {
+      createMenuCard(element)
+    });
+  }
 }
 
 //Clears the menu

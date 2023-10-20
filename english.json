@@ -16,5 +16,6 @@
     "highestPrice":"Highest price",
     "lowestPrice":"Lowest price",
     "mainDish":"Main Course",
-    "Checkout":"Checkout"
+    "Checkout":"Checkout",
+    "noDishes": "Sorry, no dishes found!"
   }

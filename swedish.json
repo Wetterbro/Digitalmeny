@@ -16,5 +16,6 @@
     "highestPrice":"Högsta pris",
     "lowestPrice":"Lägsta pris",
     "mainDish":"Varmrätter",
-    "Checkout":"Beställ"
+    "Checkout":"Beställ",
+    "noDishes" : "Tyvärr, inga rätter hittades!"
   }
