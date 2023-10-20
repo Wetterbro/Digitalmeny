@@ -93,7 +93,8 @@ changelangSe.addEventListener("click", function () {
 
 // -------- Checkout button --------- 
 checkoutbutton.addEventListener("click", function () {
-  alert("Function is still in development");
+  alert(CheckoutMessage(basket));
+  
 });
 
 
@@ -255,6 +256,22 @@ function changeLang(languageFile) {
     }
   }
 }
+
+function CheckoutMessage(basket) {
+  if (basket.length === 0) {
+    return "The site is still under development. \n Please add items to your basket.";
+  }
+
+  let message = "The site is still under development \nItems in your basket:\n";
+  basket.forEach((item) => {
+    message += `${item.disheName[foodDataLangSelect]} - ${item.price} kr\n`;
+  });
+
+  message += `Total: ${calcTotalPrice()} kr`;
+
+  return message;
+}
+
 
 
 
