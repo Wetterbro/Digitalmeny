@@ -376,6 +376,7 @@ function displayBasket(dish) {
   const button = document.createElement("button");
   button.innerHTML = '<i class="fas fa-trash"></i>';
   button.classList.add("btn", "btn-outline-danger", "flex-wrap");
+  button.setAttribute("aria-label", "remove item");
 
   button.addEventListener("click", () => {
     removeFromBasket(dish);
