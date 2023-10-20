@@ -31,7 +31,7 @@ async function fetchData(url) {
   return data;
 }
 //fetching JSON data
-const foodData = await fetchData("./index.json");
+const foodData = await fetchData("./food.json");
 let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
@@ -274,7 +274,7 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="full circle">
+    <h2>${dish.dishName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="full circle">
      ${dish.price[1]}kr <img src="./assets/img/full.png" alt="half circle"> ${dish.price[0]}kr
      ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
@@ -284,7 +284,7 @@ function createMenuCard(dish) {
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
+    <h2>${dish.dishName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
     <button class="btn btn-outline-primary" data-translate="addToCart" data-price="${dish.price[0]}">Lägg till i varukorgen</button>
   `;
@@ -353,7 +353,7 @@ function displayBasket(dish) {
   const displayBasket = document.createElement("div");
   displayBasket.classList.add("col-sm-6");
   let basketDetailsHTML = `
-  <p>${dish.disheName[foodDataLangSelect]}  ${dish.price} kr<p> 
+  <p>${dish.dishName[foodDataLangSelect]}  ${dish.price} kr<p> 
   `;
   const button = document.createElement("button");
   button.textContent = "Remove";
