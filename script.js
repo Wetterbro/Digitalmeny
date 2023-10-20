@@ -350,8 +350,8 @@ function displayBasket(dish) {
   <p>${dish.disheName[foodDataLangSelect]}  ${dish.price} kr<p> 
   `;
   const button = document.createElement("button");
-  button.textContent = "Remove";
-  button.classList.add("btn", "btn-outline-primary", "flex-wrap");
+  button.innerHTML = '<i class="fas fa-trash"></i>';
+  button.classList.add("btn", "btn-outline-danger", "flex-wrap");
 
   button.addEventListener("click", () => {
     removeFromBasket(dish);
