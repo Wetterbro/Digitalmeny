@@ -15,5 +15,7 @@
     "addToCartFull": "Add to cart (Full)",
     "highestPrice":"Highest price",
     "lowestPrice":"Lowest price",
-    "mainDish":"Main Course"
+    "mainDish":"Main Course",
+    "Checkout":"Checkout",
+    "noDishes": "Sorry, no dishes found!"
   }

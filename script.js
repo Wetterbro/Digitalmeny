@@ -1,89 +1,140 @@
 
-//defining buttons
+/* ---------------------------------- CONSTS ------------------------------------- */
 const changelangEng = document.getElementById("englishButton");
 const changelangSe = document.getElementById("swedishButton");
+
+const filterButtonArray = document.querySelectorAll('.btn-check'); //Looks for buttons with the btn-check class
 const veganButton = document.getElementById("btncheck1");
-const filterButtons = document.querySelectorAll('.btn-check'); //Looks for all buttons with the btn-check class
-
-const sortButtons = [
-  document.getElementById("btncheck8"),
-  document.getElementById("btncheck9")
-]
-
-//defining buttons
+const sortingButtons = [document.getElementById("btncheck8"), document.getElementById("btncheck9")]
+const checkoutbutton = document.getElementById("checkout");
+const basketbutton = document.getElementById("showBasketButton");
+//TODO Change name
+const basketWindow = document.getElementById('liveToast')
+//Protein Buttons for filtering
 const meatbuttons = [
   document.getElementById("btncheck2"),
   document.getElementById("btncheck3"),
   document.getElementById("btncheck4"),
   document.getElementById("btncheck5")
 ];
-
-const checkoutbutton = document.getElementById("checkout");
 //defining variables-
 let basket = []
 let foodDataLangSelect = 0;
 
-const toastTrigger = document.getElementById('liveToastBtn')
-const toastLiveExample = document.getElementById('liveToast')
 
-//function for fetching json data, takes location
+
+/* ---------------------------------- FETCHING JSON DATA ------------------------------------- */
 async function fetchData(url) {
   const response = await fetch(url);
   const data = await response.json();
   return data;
 }
-
 //fetching JSON data
-const foodData = await fetchData("./index.json");
-let outputFoodData = foodData;
+const foodData = await fetchData("./food.json");
+let outputFoodData = [...foodData];
 const langEn = await fetchData("./english.json");
 const langSe = await fetchData("./swedish.json");
 
-//updating page on laod
-document.onload = outputToDiv();
 
-/* ------ FILTER FUNCTIONS ------- */
+/* ---------------------------------- BUTTONS / EVENTLISTENERS ------------------------------------- */
 
-filterButtons.forEach(button => {
-  button.addEventListener("input", function () {
+// -------- Filtering buttons --------- 
+//Unchecks all meat buttons if vegan button is clicked.
+veganButton.addEventListener("input", () => {
+  meatbuttons.forEach(button => {
+    button.checked = false
+  });
+});
+//Unchecks vegan button if meat button is clicked
+
+meatbuttons.forEach(button => {
+  button.addEventListener("input", () => {
+    veganButton.checked = false
+  });
+});
+//checks if any of the filter buttens is changed.
+filterButtonArray.forEach(button => {
+  button.addEventListener("input", () => {
     filterupdate();
   });
 });
 
+// -------- Sorting buttons --------- 
+//TODO Change name 
+sortingButtons[0].addEventListener("input", () => {
+  sortingButtons[1].checked = false
+  filterupdate();
+});
+//TODO Change name 
+sortingButtons[1].addEventListener("input", () => {
+  sortingButtons[0].checked = false
+  filterupdate();
+});
 
-//filters food items
+// -------- Language selection buttons --------- 
+//Event for changing language to english
+changelangEng.addEventListener("click", () => {
+  //Set the let for selecting the right language in the json file.
+  clearMenuCard()
+  foodDataLangSelect = 1;
+  outputToHTML()
+  updateBasket(basket)
+});
+
+//Event for changing language to english
+changelangSe.addEventListener("click", () => {
+  //Set the let for selecting the right language in the json file.
+  clearMenuCard()
+  foodDataLangSelect = 0;
+  outputToHTML()
+  updateBasket(basket);
+});
+
+// -------- Checkout button --------- 
+checkoutbutton.addEventListener("click", () => {
+  alert(CheckoutMessage(basket)); 
+});
+// -------- Shows basket if clicked ---------
+basketbutton.addEventListener("click", () => {
+  updateBasket(basket);
+});
+
+/* ---------------------------------- FILTER FUNCTIONS ------------------------------------- */
+
+
+//filters food items and updates menu
 function filterupdate() {
+
   //checks what buttons is checked or not
-  const buttonStates = Array.from(filterButtons).map(state => {
+  const buttonStates = Array.from(filterButtonArray).map(state => {
     return state.checked
   });
-  //disables buttons depending on whats already checked
-  disableButtonUpdate(buttonStates);
+
   //new array for storing the collected food items
   let collectedItems = [];
   //loops through all the button states and collects the items for every checked category 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < buttonStates.length; i++) {
     if (buttonStates[i]) {
       switch (i) {
         //adds vegan dishes to "collectedItems"
         case 0:
-          collectedItems = collectedItems.concat(getAllVegan());
+          collectedItems = collectedItems.concat(foodData.filter(Food => Food.vegan === true));
           break;
         //adds chicken dishes food to "collectedItems"
         case 1:
-          collectedItems = collectedItems.concat(getAllChicken());
+          collectedItems = collectedItems.concat(foodData.filter(Food => Food.chicken === true));
           break;
         //adds pork dishes food to "collectedItems"
         case 2:
-          collectedItems = collectedItems.concat(getAllPork());
+          collectedItems = collectedItems.concat(foodData.filter(Food => Food.pork === true));
           break;
         //adds beef dishes food to "collectedItems"
         case 3:
-          collectedItems = collectedItems.concat(getAllBeef());
+          collectedItems = collectedItems.concat(foodData.filter(Food => Food.beef === true));
           break;
         //adds fish dishes food to "collectedItems"
         case 4:
-          collectedItems = collectedItems.concat(getAllFish());
+          collectedItems = collectedItems.concat(foodData.filter(Food => Food.fish === true));
           break;
       }
     }
@@ -93,7 +144,10 @@ function filterupdate() {
     //removes dublicated times in the array
     collectedItems = removeDuplicates(collectedItems);
     outputFoodData = collectedItems;
-  } else outputFoodData = foodData;
+  } else outputFoodData = [...foodData];
+
+
+
 
   //checks and removes lactose and/or gluten dishes
   if (buttonStates[6]) {
@@ -103,144 +157,15 @@ function filterupdate() {
     outputFoodData = removeGluten(outputFoodData);
   }
 
+  if (sortingButtons[0].checked || sortingButtons[1].checked) {
+    sortingSelector();
+  }
+
   //---------- if sort price -> sortprice()
-  updateMenu()
-}
-//takes array and removes duplicates and sends array back
-function removeDuplicates(inputArray) {
-  const uniqueArray = [];
-  inputArray.forEach(element => {
-    if (!uniqueArray.includes(element)) {
-      uniqueArray.push(element);
-    }
-  });
-  return uniqueArray;
-}
-
-//disable buttons depending on what filters is already set
-function disableButtonUpdate(button) {
-  //disable all meat dishes if vegan filter is activ
-  if (button[0]) {
-    meatbuttons.forEach(element => {
-      element.setAttribute("disabled", "");
-    });
-  } else {
-    //"undisable" all meat buttons
-    meatbuttons.forEach(element => {
-      element.removeAttribute("disabled", "");
-    });
-  }
-  //disable vegan dishes if any meat filter is activ
-  if (button[1] || button[2] || button[3] || button[4]) {
-    veganButton.setAttribute("disabled", "");
-  } else {
-    veganButton.removeAttribute("disabled", "");
-  }
-}
-
-
-
-
-
-//returns an array with all VEGAN food items
-function getAllVegan() {
-  const veganDishArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.vegan === true) {
-      veganDishArray.push(currentFood)
-    }
-  }
-  return veganDishArray
-}
-//returns an array with all CHICKEN food items
-function getAllChicken() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.chicken === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
+  updateMenu();
 
 }
-//returns an array with all PORK food items
-function getAllPork() {
-  const returnArray = [];
 
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.pork === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
-//returns an array with all BEEF food items
-function getAllBeef() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.beef === true) {
-      returnArray.push(currentFood)
-
-    }
-  }
-
-  return returnArray
-
-}
-//returns an array with all FISH food items
-function getAllFish() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    if (currentFood.fish === true) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
-//Returns an array with all food items containing LACTOSE
-function getAllLactose() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    //Checks if GLUTEN free is false, if so the food contains lactose
-    if (currentFood.lactoseFree === false) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
-//Returns an array with all food items containing GLUTEN
-function getAllGluten() {
-  const returnArray = [];
-
-  for (let index = 0; index < foodData.length; index++) {
-    const currentFood = foodData[index]
-    //Checks if GLUTEN free is false, if so the food contains lactose
-    if (currentFood.glutenFree === false) {
-      returnArray.push(currentFood)
-    }
-  }
-
-  return returnArray
-
-}
 //removes all dishes including gluten and returns the rest
 function removeGluten(foodArray) {
   // Use the filter method to create a new array without gluten foods
@@ -256,8 +181,46 @@ function removeLactose(foodArray) {
   return withoutLactose;
 }
 
-/* ------ SORT FUNCTIONS ------- */
+//takes an array and removes duplicate-dishes and returns new array back
+function removeDuplicates(inputArray) {
+  const uniqueArray = [];
+  inputArray.forEach(element => {
+    if (!uniqueArray.includes(element)) {
+      uniqueArray.push(element);
+    }
+  });
+  return uniqueArray;
+}
 
+
+
+
+/* ---------------------------------- SORTING FUNCTIONS ------------------------------------- */
+// looks if any of the sorting buttons is checked and calls the matching sorting function.
+function sortingSelector() {
+  for (let i = 0; i < sortingButtons.length; i++) {
+    if (sortingButtons[i].checked) {
+      switch (i) {
+        //sorts array high to low
+        case 0:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          outputFoodData = outputFoodData.reverse();
+          break;
+
+        //sorts array low to high
+        case 1:
+          outputFoodData = sortAfterPrice(outputFoodData);
+          break;
+      }
+
+      updateMenu();
+    }
+  }
+  //if none of the sorting buttons is checked, updates   
+  if (sortingButtons[0].checked === false && sortingButtons[1].checked === false) {
+    filterupdate();
+  }
+}
 
 /*Returns an array with food objects sorted after price
 If no array is passed as a parameter, 
@@ -266,58 +229,61 @@ function sortAfterPrice(arrayToSort = foodData) {
   let sortedArray = [];
 
   //Compares two values in the array and sorts them accordingly
-  sortedArray = foodData.sort(function (firstValue, secondValue) {
-    return firstValue.price - secondValue.price
+  sortedArray = arrayToSort.sort(function (firstValue, secondValue) {
+    return firstValue.price[0] - secondValue.price[0]
   });
-
   return sortedArray;
-
 }
 
-/* ------ GENERAL FUNCTIONS ------- */
-//Event for changing language to english
-changelangEng.addEventListener("click", function () {
-  //Set the var for selecting the right language in the json file.
-  clearMenuCard()
-  foodDataLangSelect = 1;
-  outputToDiv()
-  changeLang(langEn);
-});
 
-//Event for changing language to english
-changelangSe.addEventListener("click", function () {
-  //Set the var for selecting the right language in the json file.
-  clearMenuCard()
-  foodDataLangSelect = 0;
-  outputToDiv()
-  changeLang(langSe);
-});
 
-//takes language file and finds all elements with a translate key and changes its text to the maching key in the language file.
+
+/* ---------------------------------- LOADING SETUP ------------------------------------- */
+//Load html elements to the page
+document.onload = outputToHTML();
+
+
+/* ---------------------------------- GENERAL FUNCTIONS ------------------------------------- */
+
+//takes language file and finds all elements with a translate key and changes its text to the matching key in the language file.
 function changeLang(languageFile) {
   for (var key in languageFile) {
     if (languageFile.hasOwnProperty(key)) {
       var elements = document.querySelectorAll("[data-translate=" + key + "]");
       for (var i = 0; i < elements.length; i++) {
         elements[i].textContent = languageFile[key];
-        console.log(key);
       }
     }
   }
 }
+//Takes an array of dishes and makes a checkout message ready for sending in an alert
+function CheckoutMessage(basket) {
+  if (basket.length === 0) {
+    return "The site is still under development. \n Please add items to your basket.";
+  }
+
+  let message = "The site is still under development \nItems in your basket:\n";
+  basket.forEach((item) => {
+    message += `${item.dishName [foodDataLangSelect]} - ${item.price} kr\n`;
+  });
+
+  message += `Total: ${calcTotalPrice()} kr`;
+
+  return message;
+}
 
 
-/*------------HTML-------------*/
+
+
+/* ---------------------------------- HTML FUNCTIONS ------------------------------------- */
+
 // Function to create a menu card for a dish
 function createMenuCard(dish) {
   const menuCard = document.createElement("div");         // Create a div for the menu card
   menuCard.classList.add("col-sm-6");                     // Add CSS classes to style the card
 
-  const cardBody = document.createElement("div");         // Create a div for the card body
-  cardBody.classList.add("card-body");                    // Add CSS classes for card body styling
-
-  const mbDiv = document.createElement("div");            // Create a div for margin bottom
-  mbDiv.classList.add("mb-3");                            // Add CSS classes for margin styling
+  const cardBody = document.createElement("div");          // Create a div for the card body
+  cardBody.classList.add("card-body" , "mb-3");                    // Add CSS classes for card body styling
 
   // Generate HTML content for menu details using dish data
   let menuDetailsHTML;
@@ -325,54 +291,98 @@ function createMenuCard(dish) {
   if (dish.price.length > 1) {
     // If a half-price is defined, display it along with the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} <img src="./assets/img/half_full.png" alt="half circle">
-     ${dish.price[0]}kr <img src="./assets/img/full.png" alt="full circle"> ${dish.price[1]}kr
+    <h2>${dish.dishName[foodDataLangSelect]} <i class="fa-solid fa-circle-half-stroke fa-2xs"></i>
+    </i>
+     ${dish.price[1]}kr <i class="fa-solid fa-circle fa-2xs"></i> ${dish.price[0]}kr
      ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end>' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
-    <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[0]}">Lägg till i varukorgen (Halv)</button>
-    <button class="btn btn-outline-primary" data-translate="addToCartFull" data-price="${dish.price[1]}">Lägg till i varukorgen (Hel)</button>
+    <button class="btn btn-outline-primary" data-translate="addToCartHalf" data-price="${dish.price[1]}">Lägg till i varukorgen (Halv)</button>
+    <button class="btn btn-outline-primary" data-translate="addToCartFull" data-price="${dish.price[0]}">Lägg till i varukorgen (Hel)</button>
   `;
   } else {
     // If no half-price is defined, display the regular price
     menuDetailsHTML = `
-    <h2>${dish.disheName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
+    <h2>${dish.dishName[foodDataLangSelect]} ${dish.price}kr ${dish.vegan ? '<img src="./assets/img/vegan.png" alt="Vegan icon" class="float-end">' : ''}</h2>
     <p>${dish.about[foodDataLangSelect]}</p>
     <button class="btn btn-outline-primary" data-translate="addToCart" data-price="${dish.price[0]}">Lägg till i varukorgen</button>
   `;
   }
-  
-  mbDiv.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
-  cardBody.appendChild(mbDiv);                            // Append the margin div to the card body
-  menuCard.appendChild(cardBody);                         // Append the card body to the menu card
 
+  cardBody.insertAdjacentHTML("beforeend", menuDetailsHTML); // Insert the HTML content
+                             
+  menuCard.appendChild(cardBody);                         // Append the card body to the menu card
   // Add event listeners to handle button clicks
-  const buttons = mbDiv.querySelectorAll("button");
+  const buttons = cardBody.querySelectorAll("button");
   buttons.forEach(button => {
     button.addEventListener("click", (event) => {
       const price = event.target.getAttribute("data-price");
       addToBasket(dish, price);
-      console.log("Item added to cart: " + dish.disheName[foodDataLangSelect] + " " + price + "kr");
     });
   });
   const divOutput = document.getElementById("output");
   divOutput.appendChild(menuCard);
+
+  if (foodDataLangSelect == 0) {
+    changeLang(langSe)
+  } else {
+    changeLang(langEn)
+  }
 }
 
+// Creates a message if there is no dishes with current filter configuration
+function noDishesFound() {
+  clearMenuCard()
+  const noDishesElement = `<h3>${foodDataLangSelect === 0 ? langSe.noDishes : langEn.noDishes}</h3>` 
+  const viewToDiv = document.getElementById("output");
+  viewToDiv.insertAdjacentHTML("beforeEnd" , noDishesElement)
+ 
+}
+//Takes food array and puts them in to divs in the HTML file 
+function outputToHTML() {
+  if (outputFoodData.length <= 0) {
+    noDishesFound()
+  } else {
+    outputFoodData.forEach(element => {
+      createMenuCard(element)
+    });
+  }
+}
+
+//Clears the menu
+function clearMenuCard() {
+  const divOutput = document.getElementById("output");
+  while (divOutput.firstChild) {
+    divOutput.removeChild(divOutput.firstChild);
+  }
+}
+
+//Updates the dishes on the menu
+function updateMenu() {
+  clearMenuCard();
+  outputToHTML();
+}
+
+/* ---------------------------------- BASKET FUNCTIONS ------------------------------------- */
 // takes a dish object and displays it in the toast window
+//Updates the view for the user with HTML elements 
 function displayBasket(dish) {
+  //Creates html div and set classes 
   const displayBasket = document.createElement("div");
   displayBasket.classList.add("col-sm-6");
+  //Create HTML for dish details
   let basketDetailsHTML = `
-  <p>${dish.disheName[foodDataLangSelect]}  ${dish.price} kr<p> 
-`;
+  <p>${dish.dishName[foodDataLangSelect]}  ${dish.price} kr<p> 
+  `;
+  //creates a trash button for removing items in basket
   const button = document.createElement("button");
-  button.textContent = "Remove";
-  button.classList.add("btn", "btn-outline-primary", "flex-wrap");
+  button.innerHTML = '<i class="fas fa-trash"></i>';
+  button.classList.add("btn", "btn-outline-danger", "flex-wrap");
+  button.setAttribute("aria-label", "remove item");
 
   button.addEventListener("click", () => {
     removeFromBasket(dish);
   });
-
+  //outputs content to page
   const hr = document.createElement("hr");
   displayBasket.insertAdjacentHTML("beforeend", basketDetailsHTML)
   const divBasket = document.getElementById("basket");
@@ -382,46 +392,37 @@ function displayBasket(dish) {
 }
 
 
-//Takes food array and puts them in to divs in the HTML file 
-function outputToDiv() {
-  outputFoodData.forEach(element => {
-    createMenuCard(element)
-  });
-}
-//Clears the menu
-function clearMenuCard() {
-  const divOutput = document.getElementById("output");
-  while (divOutput.firstChild) {
-    divOutput.removeChild(divOutput.firstChild);
-  }
-}
-//updates the dishes on the menu
-function updateMenu() {
-  clearMenuCard();
-  outputToDiv();
-}
 //takes dish and adds it to customers basket
 function addToBasket(dish, price) {
   // Create a copy of the dish with the selected price
   const dishCopy = { ...dish, price };
-
   // Add the new dish to the basket
   basket.push(dishCopy);
-
   updateBasket(basket);
+  if(basket.length > 0){
+    basketbutton.disabled = false;
+  }
 }
 
-//takes a dish input and removes it to customers basket
+//takes a dish input and removes it from the customers basket
 function removeFromBasket(dish) {
+  // Find the item we want to remove and "cuts it out" of the array
+
   for (let index = 0; index < basket.length; index++) {
     const element = basket[index];
     if (element == dish) {
       basket.splice(index, 1);
     }
   }
+
+  // update user's shopping basket
   updateBasket(basket)
+  if(basket.length == 0){
+    basketbutton.disabled = true;
+  }
 }
-//takes an array of dishes, removes all objects in the toast window and reprints everything in the input array.
+
+//takes an array of dishes, removes all objects in the toast window and updates everything in the input array.
 function updateBasket(dishlist) {
   const divBasket = document.getElementById("basket");
   while (divBasket.firstChild) {
@@ -432,13 +433,13 @@ function updateBasket(dishlist) {
   });
   //displayes toast window if basket contains any items
   if (basket.length > 0) {
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(basketWindow)
     toastBootstrap.show()
   }
   //prints total price
   document.getElementById("total-price").textContent = "Total: " + calcTotalPrice() + " kr";
 }
-//calculate the total price of items in the basket 
+//calculate the total price of items in the basket and returns the total
 function calcTotalPrice() {
   let total = 0;
   basket.forEach(element => {
@@ -446,6 +447,3 @@ function calcTotalPrice() {
   });
   return total;
 }
-checkoutbutton.addEventListener("click", function () {
-  alert("Function is still in development");
-});

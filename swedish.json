@@ -15,5 +15,7 @@
     "addToCartFull": "Lägg till i varukorgen (Hel)",
     "highestPrice":"Högsta pris",
     "lowestPrice":"Lägsta pris",
-    "mainDish":"Varmrätter"
+    "mainDish":"Varmrätter",
+    "Checkout":"Beställ",
+    "noDishes" : "Tyvärr, inga rätter hittades!"
   }
