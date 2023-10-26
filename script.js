@@ -72,23 +72,17 @@ sortingButtons[1].addEventListener("input", () => {
 });
 
 // -------- Language selection buttons --------- 
-//Event for changing language to english
-changelangEng.addEventListener("click", () => {
-  //Set the let for selecting the right language in the json file.
-  clearMenuCard()
-  foodDataLangSelect = 1;
-  outputToHTML()
-  updateBasket(basket)
-});
-
-//Event for changing language to english
-changelangSe.addEventListener("click", () => {
-  //Set the let for selecting the right language in the json file.
-  clearMenuCard()
-  foodDataLangSelect = 0;
-  outputToHTML()
+// Create a function to handle language switching
+function switchLanguage(lang) {
+  clearMenuCard();
+  foodDataLangSelect = lang;
+  outputToHTML();
   updateBasket(basket);
-});
+}
+
+// Attach click event listeners for language buttons
+changelangEng.addEventListener("click", () => switchLanguage(1)); // English
+changelangSe.addEventListener("click", () => switchLanguage(0));   // Swedish
 
 // -------- Checkout button --------- 
 checkoutbutton.addEventListener("click", () => {
